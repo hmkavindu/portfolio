@@ -1,5 +1,17 @@
 # TODO - Portfolio Development Tasks
 
+## Latest Updates (2025-01-27)
+
+### ✅ Formspree Integration Complete
+- **Status**: COMPLETED
+- **Action**: Switched contact form from Netlify Forms to Formspree
+- **Details**: 
+  - Created `.env.local` with Formspree endpoint
+  - Updated form submission logic to use Formspree API
+  - Removed Netlify form attributes
+  - Maintained EmailJS and Gmail fallbacks
+  - Form now sends messages to `https://formspree.io/f/xwpryjgr`
+
 ## High Priority
 - [ ] **Redesign portfolio layout** to match Basindu's structure
 - [ ] **Add projects section** with sample projects

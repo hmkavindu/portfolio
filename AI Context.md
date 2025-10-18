@@ -1,5 +1,17 @@
 # AI Context - Portfolio Development Project
 
+## Latest Updates (2025-01-27)
+
+### Formspree Integration
+- **User Request**: Switch from Netlify Forms to Formspree for contact form submissions
+- **Implementation**: 
+  - Created `.env.local` with Formspree endpoint: `VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/xwpryjgr`
+  - Updated `handleContactSubmit` function to use Formspree API as primary method
+  - Removed Netlify form attributes from HTML and form markup
+  - Form now sends JSON `{name, email, message}` to Formspree endpoint
+  - Maintains EmailJS and Gmail compose as fallback methods
+  - Form submission flow: Formspree → EmailJS → Gmail compose
+
 ## Project Overview
 **Date Started:** January 15, 2025  
 **Project Name:** H.M.K. Dilshan Wijerathna Portfolio  

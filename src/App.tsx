@@ -29,7 +29,7 @@ export default function App() {
   })
   
   // Gallery slider
-  const imageModules = import.meta.glob('./*.{png,jpg,jpeg,webp}', { eager: true, as: 'url' }) as Record<string, string>
+  const imageModules = import.meta.glob('./*.{png,jpg,jpeg,webp}', { eager: true, query: '?url', import: 'default' }) as Record<string, string>
   const galleryImages = Object.values(imageModules).slice(0, 4)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -65,6 +65,7 @@ export default function App() {
     const name = (data.get('name') as string || '').trim()
     const email = (data.get('email') as string || '').trim()
     const message = (data.get('message') as string || '').trim()
+    const formspreeEndpoint = (import.meta.env.VITE_FORMSPREE_ENDPOINT as string | undefined)
 
     const serviceId = (import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined)
     const templateId = (import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined)
@@ -76,6 +77,25 @@ export default function App() {
       message,
       to_email: profile.email,
       site_url: window.location.href,
+    }
+
+    if (formspreeEndpoint) {
+      try {
+        setSubmitStatus('sending')
+        const res = await fetch(formspreeEndpoint, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message })
+        })
+        if (res.ok) {
+          setSubmitStatus('sent')
+          form.reset()
+          return
+        }
+        setSubmitStatus('error')
+      } catch {
+        setSubmitStatus('error')
+      }
     }
 
     if (serviceId && templateId && publicKey) {
@@ -656,13 +676,7 @@ export default function App() {
 
             {/* Contact Form */}
             <div className="card p-8">
-              <form className="space-y-6" onSubmit={handleContactSubmit} name="contact" data-netlify="true" netlify-honeypot="bot-field">
-                <input type="hidden" name="form-name" value="contact" />
-                <p className="hidden">
-                  <label>
-                    Don’t fill this out if you’re human: <input name="bot-field" />
-                  </label>
-                </p>
+              <form className="space-y-6" onSubmit={handleContactSubmit}>
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">Name</label>
                   <input 
