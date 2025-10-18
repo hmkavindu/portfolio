@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #ffffff;
+    --card: #f8fafc;
+  }
+  html { scroll-behavior: smooth; }
+  body { 
+    @apply bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  /* Explicit light/dark body text colors per request */
+  .light body { color: #111; }
+  .dark body { color: #f5f5f5; }
+}
+
+@layer components {
+  .container-px { @apply px-4 sm:px-6 lg:px-8; }
+  .section { @apply py-16 sm:py-20 lg:py-24; }
+      .card { 
+        @apply bg-white/95 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-100 dark:border-slate-800;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+  .btn { 
+    @apply inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-300 transform;
+  }
+  .btn-primary { 
+    @apply btn bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 px-6 py-3 shadow-lg hover:shadow-xl hover:-translate-y-1;
+  }
+  .btn-outline { 
+    @apply btn border-2 border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 px-6 py-3;
+  }
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
+  }
+      .hero-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      /* Enhanced visibility for main sections */
+      .section-content {
+        @apply bg-white/95 dark:bg-slate-900/80 backdrop-blur-md rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      }
+      
+      .section-title {
+        @apply text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-16 text-center;
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      /* Dark mode override to keep titles readable */
+      .dark .section-title {
+        @apply text-white;
+        background: none;
+        -webkit-text-fill-color: initial;
+        background-clip: border-box;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.35);
+      }
+      
+      /* Projects hover effects */
+      .project-card {
+        @apply card p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-105;
+        transform-origin: center;
+      }
+      
+      .project-card:hover {
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+      }
+      
+      .project-header {
+        @apply w-full h-48 rounded-lg mb-4 flex items-center justify-center text-white text-2xl font-bold transition-all duration-300;
+      }
+      
+      .project-card:hover .project-header {
+        @apply scale-110;
+      }
+      
+      /* Skills hover effects */
+      .skill-card {
+        @apply card p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:scale-105;
+        transform-origin: center;
+      }
+      
+      .skill-card:hover {
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+      }
+      
+      .skill-progress {
+        @apply transition-all duration-300;
+      }
+      
+      .skill-card:hover .skill-progress {
+        @apply scale-110;
+      }
+}
+
+@layer components {
+  /* Themed Backgrounds */
+  .parallax-bg {
+    position: fixed;
+    top: -30vh;
+    left: -30vw;
+    width: 160vw;
+    height: 160vh;
+    z-index: -1;
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    will-change: transform, filter;
+    pointer-events: none;
+  }
+  .light .parallax-bg {
+    --bg-image: linear-gradient(135deg, #f5f7fa 0%, #e4ecf7 100%);
+  }
+  .dark .parallax-bg {
+    /* Dark: mostly black base with subtle multi-color glows */
+    --bg-image: radial-gradient(1200px 800px at 15% 20%, rgba(99,102,241,0.10), transparent 60%),
+                 radial-gradient(1000px 700px at 80% 70%, rgba(168,85,247,0.10), transparent 60%),
+                 radial-gradient(900px 600px at 50% 10%, rgba(59,130,246,0.08), transparent 60%),
+                 radial-gradient(900px 600px at 10% 85%, rgba(14,165,233,0.08), transparent 60%),
+                 linear-gradient(180deg, #020617 0%, #0b1220 100%);
+  }
+  
+  /* Aurora background layer (theme-aware) */
+  .aurora-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .aurora {
+    position: absolute;
+    width: 180vw;
+    height: 180vh;
+    left: -40vw;
+    top: -40vh;
+    filter: blur(80px);
+    will-change: transform, opacity;
+    animation: auroraMove 22s ease-in-out infinite alternate;
+    opacity: 0.45;
+  }
+  .light .aurora {
+    background:
+      radial-gradient(40% 35% at 20% 30%, rgba(59,130,246,0.35) 0%, transparent 60%),
+      radial-gradient(35% 40% at 80% 70%, rgba(236,72,153,0.35) 0%, transparent 60%),
+      radial-gradient(30% 30% at 50% 10%, rgba(34,197,94,0.25) 0%, transparent 60%),
+      radial-gradient(30% 30% at 10% 80%, rgba(6,182,212,0.25) 0%, transparent 60%);
+  }
+  .dark .aurora {
+    background:
+      radial-gradient(40% 35% at 20% 30%, rgba(99,102,241,0.25) 0%, transparent 60%),
+      radial-gradient(35% 40% at 80% 70%, rgba(168,85,247,0.25) 0%, transparent 60%),
+      radial-gradient(30% 30% at 50% 10%, rgba(59,130,246,0.20) 0%, transparent 60%),
+      radial-gradient(30% 30% at 10% 80%, rgba(6,182,212,0.20) 0%, transparent 60%);
+    opacity: 0.35;
+  }
+}
+
+@layer utilities {
+  .animate-fadeInUp {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  .animate-fadeInUp:nth-child(1) { animation-delay: 0.1s; }
+  .animate-fadeInUp:nth-child(2) { animation-delay: 0.2s; }
+  .animate-fadeInUp:nth-child(3) { animation-delay: 0.3s; }
+  .animate-fadeInUp:nth-child(4) { animation-delay: 0.4s; }
+  .animate-fadeInUp:nth-child(5) { animation-delay: 0.5s; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes auroraMove {
+  0% { transform: translate3d(0, 0, 0) rotate(0.001deg); }
+  50% { transform: translate3d(10vw, -5vh, 0) rotate(0.001deg); }
+  100% { transform: translate3d(-8vw, 6vh, 0) rotate(0.001deg); }
+}
+
+
